@@ -18,6 +18,7 @@ import { clearHistory } from "@/lib/storage";
 export default function SidebarNew({ open, onToggle, sessions, onSelect }) {
   return (
     <>
+      {/* sidebar icon */}
       <IconButton
         onClick={onToggle}
         sx={{
@@ -32,7 +33,7 @@ export default function SidebarNew({ open, onToggle, sessions, onSelect }) {
       >
         <Menu />
       </IconButton>
-
+      {/* sidebar */}
       <Drawer anchor="left" open={open} onClose={onToggle}>
         <Box
           sx={{
@@ -42,8 +43,15 @@ export default function SidebarNew({ open, onToggle, sessions, onSelect }) {
             height: "100%",
           }}
         >
-          <Box sx={{ p: 2,display: "flex", alignItems: "center",justifyContent:"center" }}>
-            <Typography  variant="h6" fontWeight={500}>
+          <Box
+            sx={{
+              p: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography variant="h6" fontWeight={500}>
               Chat History
             </Typography>
           </Box>

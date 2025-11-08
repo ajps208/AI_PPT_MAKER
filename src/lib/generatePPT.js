@@ -35,7 +35,6 @@ export default function generatePpt(pptData) {
       if (slide.content) {
         s.addText(slide.content, {
           x: 0.7, y: 1.4, w: 5.8, h: 3.6, fontSize: 16, color: "333333",
-          // If you formatted bullets with \n, let them wrap naturally
         });
       }
 

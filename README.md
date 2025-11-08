@@ -59,17 +59,14 @@ npm run dev
 ```
 ###  Open [http://localhost:3000](http://localhost:3000) in your browser
 
-### 💡 How It Works
+## 💡 How It Works
 
-## 1.Enter any topic in the chat (e.g., “The Future of Artificial Intelligence”).
+1. Enter any **topic** in the chat (e.g., *“The Future of Artificial Intelligence”*).
+2. The app simulates **Thinking**, **Researching**, and **Generating** steps.
+3. The backend endpoint **`/api/generate`** calls **Gemini 2.5 Flash** to create a strict JSON slide structure.
+4. The slides are rendered in the **PPT Viewer** on the right.
+5. Click **Download** to export the presentation as a **.pptx** file.
 
-## 2.AI simulates thinking, researching, and slide creation steps.
-
-## 3./api/generate calls Gemini 2.5 Flash to create a valid JSON structure.
-
-## 4.The slides are displayed in the right-side PPT Viewer.
-
-## 5.You can download the finished presentation as a .pptx file.
 
 
 ### 🧠 Example API Response
@@ -118,7 +115,7 @@ Contributions, issues, and feature requests are welcome!
 
 ## 📧 Contact
 
-Project Link: [https://github.com/ajps208/2048_game](https://github.com/ajps208/2048_game)
+Project Link: [https://github.com/ajps208/AI_PPT_MAKER](https://github.com/ajps208/AI_PPT_MAKER)
 Deployed Link: [https://2048-game-green.vercel.app/](https://2048-game-green.vercel.app/)
 
 ---

@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Container } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ChatSection from "@/Sections/ChatSection";
 import PPTSection from "@/Sections/PPTSection";
+import SidebarNew from "@/components/SideBarNew";
+import { saveSession, getSessions } from "@/lib/storage";
 
 const theme = createTheme({
   palette: { background: { default: "#f9fafb" } },
@@ -16,12 +18,21 @@ export default function Home() {
   const [inputCentered, setInputCentered] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sessions, setSessions] = useState([]);
 
+  // Load sessions on component mount
+  useEffect(() => {
+    setSessions(getSessions());
+  }, []);
+
+  // 
   const addMessage = (msg) => {
     setMessages((prev) => [...prev, msg]);
     setInputCentered(false);
   };
 
+  // function to handle sending a message
   const handleSend = async (text) => {
     if (isGenerating) return;
 
@@ -30,73 +41,66 @@ export default function Home() {
     setIsGenerating(true);
 
     try {
-      // Show thinking message
+      const endpoint = pptData ? "/api/update" : "/api/generate";
+      const payload = pptData ? { pptData, prompt: text } : { topic: text };
+
       addMessage({
-        id: Date.now() + "-t1",
+        id: Date.now() + "-t",
         type: "thought",
-        title: "Thinking...",
-        text: "I'm analyzing your topic and planning the presentation structure. I'll create an engaging and informative slide deck with clear sections and valuable content.",
+        title: pptData ? "Updating Presentation..." : "Generating Presentation...",
+        text: pptData
+          ? "I'm applying your requested updates..."
+          : "I'm creating your slides, please wait...",
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Show search simulation
-      addMessage({
-        id: Date.now() + "-s",
-        type: "search",
-        title: "Researching topic",
-        subtitle: `"${text}"`,
-      });
-
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Show analysis
-      addMessage({
-        id: Date.now() + "-t2",
-        type: "thought",
-        title: "Creating presentation",
-        text: "I'm now generating your slides with well-structured content, engaging visuals, and a professional layout. The presentation will cover key aspects of your topic comprehensively.",
-      });
-
-      // Call API to generate slides
-      const response = await fetch("/api/generate", {
+      const response = await fetch(endpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ topic: text }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
-     
-      // console.log(response,"response");
-      
-      if (!response.ok) {
-        throw new Error("Failed to generate slides");
-      }
 
-      const slideData = await response.json();
+      if (!response.ok) throw new Error("API error");
 
-     
+      const data = await response.json();
+      setPptData(data);
 
-      setPptData(slideData);
-
-      // Success message
       addMessage({
-        id: Date.now() + "-success",
+        id: Date.now() + "-done",
         type: "thought",
-        title: "✓ Presentation Generated",
-        text: `Successfully created a ${slideData.slideCount}-slide presentation about "${slideData.title}". You can view it on the right and download it as a PowerPoint file.`,
+        title: "✅ Done",
+        text: pptData
+          ? "Presentation updated successfully."
+          : `Created ${data.slideCount} slides about "${data.title}".`,
       });
-    } catch (error) {
-      console.error("Error:", error);
+
+      const session = {
+        id: Date.now(),
+        title: data.title || text,
+        messages: [...messages, userMsg],
+        pptData: data,
+        timestamp: Date.now(),
+      };
+      saveSession(session);
+      setSessions(getSessions());
+    } catch (err) {
+      console.error(err);
       addMessage({
-        id: Date.now() + "-error",
+        id: Date.now() + "-err",
         type: "thought",
-        title: "❌ Error",
-        text: "Sorry, there was an error generating the presentation. Please try again.",
+        title: "Error",
+        text: "Something went wrong. Please try again.",
       });
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  // function to handle selecting a session
+  const handleSelectSession = (session) => {
+    setMessages(session.messages);
+    setPptData(session.pptData);
+    setInputCentered(false);
+    setSidebarOpen(false);
   };
 
   const clearPpt = () => setPptData(null);
@@ -104,6 +108,13 @@ export default function Home() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <SidebarNew
+        open={sidebarOpen}
+        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        sessions={sessions}
+        onSelect={handleSelectSession}
+      />
+
       <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
         <Container maxWidth="xl" sx={{ p: 3 }}>
           <Box sx={{ display: "flex", gap: 3, height: "calc(100vh - 3rem)" }}>

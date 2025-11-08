@@ -4,8 +4,6 @@ import Head from 'next/head';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import Box from '@mui/material/Box';
 import "../app/globals.css";
-import SideBarNew from '@/components/SideBarNew';
-
 
 const theme = createTheme({
 palette: { mode: 'light' },
@@ -14,7 +12,6 @@ components: { MuiButton: { defaultProps: { disableElevation: true } } }
 
 
 export default function RootLayout({ children }) {
-const sidebarOpen = false
 
 return (
 <html lang="en">
@@ -24,11 +21,7 @@ return (
 <body>
 <ThemeProvider theme={theme}>
 <CssBaseline />
-{/* <Navbar /> */}
-<Box sx={{ display: 'flex',}}>
-{sidebarOpen && <SideBarNew />}
 <Box sx={{ flex: 1, overflow: 'auto' }}>{children}</Box>
-</Box>
 </ThemeProvider>
 </body>
 </html>

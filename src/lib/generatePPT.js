@@ -1,14 +1,10 @@
 import PptxGenJS from "pptxgenjs";
 
-/**
- * Builds and downloads a .pptx from your pptData JSON.
- * @param {{title:string, slides:Array}} pptData
- */
+
 export default function generatePpt(pptData) {
   const pptx = new PptxGenJS();
   pptx.title = pptData.title || "Presentation";
 
-  // Optional: set layout to 16x9 (default), you can change if you want
   pptx.layout = "LAYOUT_16x9";
 
   (pptData.slides || []).forEach((slide, idx) => {

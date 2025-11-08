@@ -24,7 +24,12 @@ export default function ChatInput({ onSend, inputCentered, disabled }) {
   };
 
   return (
-    <Box sx={{ maxWidth: inputCentered ? "896px" : "100%", mx: inputCentered ? "auto" : 0 }}>
+    <Box
+      sx={{
+        maxWidth: inputCentered ? "896px" : "100%",
+        mx: inputCentered ? "auto" : 0,
+      }}
+    >
       <Paper
         elevation={1}
         sx={{
@@ -50,19 +55,30 @@ export default function ChatInput({ onSend, inputCentered, disabled }) {
             borderRadius: "8px",
             background: "transparent",
           }}
-          placeholder={disabled ? "Generating slides…" : "Start with a topic, we'll turn it into slides!"}
+          placeholder={
+            disabled
+              ? "Generating slides…"
+              : inputCentered
+              ? "Start with a topic, we'll turn it into slides!"
+              : "Enter changes (e.g., 'Add a conclusion slide' or 'Simplify wording')"
+          }
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={onKeyDown}
           rows={1}
           disabled={disabled}
         />
-        <Box sx={{ position: "absolute", bottom: 8, right: 8, display: "flex", gap: 1 }}>
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 8,
+            right: 8,
+            display: "flex",
+            gap: 1,
+          }}
+        >
           <IconButton size="small" sx={{ color: "grey.600" }} disabled>
             <AttachFile fontSize="small" />
-          </IconButton>
-          <IconButton size="small" sx={{ color: "grey.600" }} disabled>
-            <Add fontSize="small" />
           </IconButton>
           <IconButton
             onClick={handleSend}
@@ -72,7 +88,9 @@ export default function ChatInput({ onSend, inputCentered, disabled }) {
               bgcolor: text.trim() && !disabled ? "grey.800" : "grey.400",
               color: "white",
               borderRadius: 2,
-              "&:hover": { bgcolor: text.trim() && !disabled ? "grey.900" : "grey.400" },
+              "&:hover": {
+                bgcolor: text.trim() && !disabled ? "grey.900" : "grey.400",
+              },
               "&:disabled": { bgcolor: "grey.400", color: "white" },
             }}
           >

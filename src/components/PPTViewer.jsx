@@ -5,11 +5,8 @@ import generatePpt from "@/lib/generatePPT";
 
 export default function PPTViewer({ ppt, onClose }) {
   if (!ppt) return null;
-  
-  const handleDownload = () => {
-    // console.log("Download PPT", ppt);
-    generatePpt(ppt);
-  };
+
+  const handleDownload = () => generatePpt(ppt);
 
   return (
     <Box
@@ -25,7 +22,7 @@ export default function PPTViewer({ ppt, onClose }) {
       }}
     >
       {/* Header */}
-       <Box
+      <Box
         sx={{
           display: "flex",
           alignItems: "center",
@@ -102,6 +99,7 @@ export default function PPTViewer({ ppt, onClose }) {
                 }}
               >
                 {slide.type === "title" ? (
+                  // Title Slide
                   <Box
                     sx={{
                       height: "100%",
@@ -110,9 +108,6 @@ export default function PPTViewer({ ppt, onClose }) {
                       justifyContent: "space-between",
                       position: "relative",
                       bgcolor: slide.bgColor || "#6366f1",
-                      background: slide.bgColor
-                        ? slide.bgColor
-                        : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                       px: 6,
                     }}
                   >
@@ -134,6 +129,7 @@ export default function PPTViewer({ ppt, onClose }) {
                         />
                       </Box>
                     )}
+
                     <Box
                       sx={{
                         textAlign: "right",
@@ -145,7 +141,7 @@ export default function PPTViewer({ ppt, onClose }) {
                     >
                       <Typography
                         sx={{
-                          color: "white",
+                          color: slide.textColor || "white",
                           fontSize: "42px",
                           fontWeight: 700,
                           mb: 2,
@@ -160,13 +156,14 @@ export default function PPTViewer({ ppt, onClose }) {
                       >
                         {slide.heading}
                       </Typography>
+
                       {slide.subtitle && (
                         <>
                           <Box
                             sx={{
                               width: 80,
                               height: 4,
-                              bgcolor: "white",
+                              bgcolor: slide.textColor || "white",
                               ml: "auto",
                               mb: 2,
                               borderRadius: 2,
@@ -174,7 +171,9 @@ export default function PPTViewer({ ppt, onClose }) {
                           />
                           <Typography
                             sx={{
-                              color: "rgba(255,255,255,0.95)",
+                              color: slide.textColor
+                                ? `${slide.textColor}CC`
+                                : "rgba(255,255,255,0.9)",
                               fontSize: "20px",
                               fontWeight: 400,
                               overflow: "hidden",
@@ -191,6 +190,7 @@ export default function PPTViewer({ ppt, onClose }) {
                     </Box>
                   </Box>
                 ) : (
+                  // Content Slide
                   <Box
                     sx={{
                       height: "100%",
@@ -229,10 +229,11 @@ export default function PPTViewer({ ppt, onClose }) {
                           />
                         </Box>
                       )}
+
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography
                           sx={{
-                            color: "#1f2937",
+                            color: slide.textColor || "#1f2937",
                             fontSize: "32px",
                             fontWeight: 700,
                             mb: 2.5,
@@ -246,10 +247,13 @@ export default function PPTViewer({ ppt, onClose }) {
                         >
                           {slide.heading}
                         </Typography>
+
                         {slide.content && (
                           <Typography
                             sx={{
-                              color: "#4b5563",
+                              color: slide.textColor
+                                ? `${slide.textColor}CC`
+                                : "#4b5563",
                               fontSize: "16px",
                               lineHeight: 1.7,
                               overflow: "hidden",

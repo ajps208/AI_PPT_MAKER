@@ -7,7 +7,7 @@ export async function POST(request) {
   try {
     const { topic } = await request.json();
 
-    const prompt = `
+const prompt = `
 You are a presentation design expert. Create a detailed and engaging presentation about "${topic}".
 
 Return ONLY a valid JSON object (no markdown, no code blocks) with this exact structure:
@@ -20,13 +20,15 @@ Return ONLY a valid JSON object (no markdown, no code blocks) with this exact st
       "type": "title",
       "heading": "Main Title",
       "subtitle": "Subtitle text",
-      "bgColor": "#uniqueColor"
+      "bgColor": "#uniqueColor",
+      "textColor": "#contrastColor"
     },
     {
       "id": 2,
       "heading": "Slide Heading",
       "content": "Detailed content with bullet points separated by newlines",
-      "bgColor": "#uniqueColor"
+      "bgColor": "#uniqueColor",
+      "textColor": "#contrastColor"
     }
   ]
 }
@@ -35,12 +37,13 @@ Follow these design and content rules carefully:
 - Create between 6–8 slides.
 - The first slide must have "type": "title".
 - Each slide must include a unique, visually distinct background color in hex format (#RRGGBB).
-- Background colors must be soft, professional, and well balanced (e.g., pastel greens, blues, grays, creams, teals, or warm light tones).
+- Background colors must be soft, professional, and well balanced (e.g., pastel greens, blues, teals, creams, warm grays, or light beige tones).
+- Each slide must also include a "textColor" field that ensures perfect contrast (white text on dark backgrounds, dark text on light backgrounds).
 - Do not repeat background colors between slides.
-- Use concise and descriptive headings.
+- Use concise, descriptive headings.
 - Separate bullet points with newlines.
 - Make the presentation informative, creative, and easy to read.
-`;
+    `;
 
     const response = await genAI.models.generateContent({
       model: "gemini-2.5-flash",

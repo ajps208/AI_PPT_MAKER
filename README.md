@@ -37,20 +37,92 @@ Users can chat naturally to request a topic — and the app instantly creates a 
 - npm or yarn
 
 
-### 1️⃣ Clone the Repository
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/ajps208/AI_PPT_MAKER.git
 cd AI_PPT_MAKER
+```
 
-2. Install dependencies:
+### 2. Install dependencies:
 ```bash
 npm install
 ```
-
-3. Start the development server:
+### 4 Add Your Gemini API Key
 ```bash
-npm start
+Create a .env.local file in the root directory:
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+### 4. Start the development server:
+```bash
+npm run dev
+```
+###  Open [http://localhost:3000](http://localhost:3000) in your browser
 
+### 💡 How It Works
+
+## 1.Enter any topic in the chat (e.g., “The Future of Artificial Intelligence”).
+
+## 2.AI simulates thinking, researching, and slide creation steps.
+
+## 3./api/generate calls Gemini 2.5 Flash to create a valid JSON structure.
+
+## 4.The slides are displayed in the right-side PPT Viewer.
+
+## 5.You can download the finished presentation as a .pptx file.
+
+
+### 🧠 Example API Response
+```bash
+{
+  "title": "Artificial Intelligence in Education",
+  "slideCount": 6,
+  "slides": [
+    {
+      "id": 1,
+      "type": "title",
+      "heading": "Artificial Intelligence in Education",
+      "subtitle": "Transforming Learning for the Future",
+      "bgColor": "#7a9b8e"
+    },
+    {
+      "id": 2,
+      "heading": "What is AI?",
+      "content": "Definition of AI\nCore Concepts\nExamples in Daily Life",
+      "bgColor": "#8ba299"
+    }
+  ]
+}
+```
+
+
+## 📸 Screenshots
+
+![Website Screenshot](./public/ppt1.png)
+![Website Screenshot](./public/ppt2.png)
+![Website Screenshot](./public/ppt3.png)
+
+## 📝 License
+
+This project is open source and available for educational purposes.
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📧 Contact
+
+Project Link: [https://github.com/ajps208/2048_game](https://github.com/ajps208/2048_game)
+Deployed Link: [https://2048-game-green.vercel.app/](https://2048-game-green.vercel.app/)
+
+---
+
+**Enjoy the game! Can you reach 2048?** 🎯
+
+⭐ Star this repo if you enjoyed playing!

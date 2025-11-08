@@ -127,6 +127,6 @@ Deployed Link: [https://ai-ppt-maker-sigma.vercel.app/](https://ai-ppt-maker-sig
 
 ---
 
-**Enjoy the game! Can you reach 2048?** 🎯
+**Enjoy the Website!** 🎯
 
 ⭐ Star this repo if you enjoyed playing!
